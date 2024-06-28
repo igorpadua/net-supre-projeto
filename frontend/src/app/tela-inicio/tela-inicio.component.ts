@@ -32,11 +32,25 @@ export class TelaInicioComponent implements OnInit {
     telefones: []
   }
 
+  pessoas: Pessoa[] = [];
+
   constructor(private pessoaService: PessoaService, private toastr: ToastrService) {
   }
 
   ngOnInit() {
     this.pessoa.telefones = Array.from({length: 5}, () => ({id: 0, telefone: '', descricao: ''}));
+
+    this.pessoaService.getPessoas()
+      .pipe(
+        catchError(err => {
+          console.error(err);
+          this.toastr.error('Erro ao buscar pessoas!', 'Erro!');
+          return EMPTY;
+        })
+      )
+      .subscribe(pessoas => {
+        this.pessoas = pessoas;
+    });
   }
 
   criarPessoa() {
@@ -45,7 +59,7 @@ export class TelaInicioComponent implements OnInit {
       .pipe(
         catchError(err => {
           console.error(err);
-          this.toastr.error('Erro ao criar pessoa!', 'Erro!');
+          this.toastr.error(err.error.message, 'Erro!');
           return EMPTY;
         })
       )
@@ -53,8 +67,8 @@ export class TelaInicioComponent implements OnInit {
       this.toastr.success('Pessoa criada com sucesso!', 'Sucesso!');
     });
 
-    // this.pessoa = this.pessoaVazia();
-    // this.pessoa.telefones = Array.from({length: 5}, () => ({id: 0, telefone: '', descricao: ''}));
+    this.pessoa = this.pessoaVazia();
+    this.pessoa.telefones = Array.from({length: 5}, () => ({id: 0, telefone: '', descricao: ''}));
   }
 
   verificaQuantidadeTelefones() {

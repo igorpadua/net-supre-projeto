@@ -1,44 +1,44 @@
-<div  class="mt-4 container-xxl">
+<div  class="mt-4 container-fluid d-flex flex-column p-3">
   <section class="border-bottom">
     <h1>Cadastro de pessoas</h1>
     <div class="row">
       <form class="col">
         <div class="form-group">
           <label>Nome</label>
-          <input type="text" class="form-control" name="nome" [(ngModel)]="pessoa.nome">
+          <input type="text" class="form-control" name="nome" required [(ngModel)]="pessoa.nome">
         </div>
         <div class="form-group">
           <label>CPF</label>
-          <input type="text" class="form-control" name="cpf" [(ngModel)]="pessoa.cpf">
+          <input type="text" class="form-control" name="cpf" required [(ngModel)]="pessoa.cpf">
         </div>
         <div class="form-group">
           <label>RG</label>
-          <input type="text" class="form-control" name="rg" [(ngModel)]="pessoa.rg">
+          <input type="text" class="form-control" name="rg" required [(ngModel)]="pessoa.rg">
         </div>
         <h2>Endereço</h2>
         <div class="form-group">
           <label>CEP</label>
-          <input type="text" class="form-control" name="cep" [(ngModel)]="pessoa.cep">
+          <input type="text" class="form-control" name="cep" required [(ngModel)]="pessoa.cep">
         </div>
         <div class="form-group">
           <label>Logradouro</label>
-          <input type="text" class="form-control" name="logradouro" [(ngModel)]="pessoa.logradouro">
+          <input type="text" class="form-control" name="logradouro" required [(ngModel)]="pessoa.logradouro">
         </div>
         <div class="form-group">
           <label>Complemento</label>
-          <input type="text" class="form-control" name="complemento" [(ngModel)]="pessoa.complemento">
+          <input type="text" class="form-control" name="complemento" required [(ngModel)]="pessoa.complemento">
         </div>
         <div class="form-group">
           <label>setor</label>
-          <input type="text" class="form-control" name="setor" [(ngModel)]="pessoa.setor">
+          <input type="text" class="form-control" name="setor" required [(ngModel)]="pessoa.setor">
         </div>
         <div class="form-group">
           <label>Cidade</label>
-          <input type="text" class="form-control" name="cidade" [(ngModel)]="pessoa.cidade">
+          <input type="text" class="form-control" name="cidade" required [(ngModel)]="pessoa.cidade">
         </div>
         <div class="form-group">
           <label>UF</label>
-          <select class="form-control" name="UF" [(ngModel)]="pessoa.uf">
+          <select class="form-control" name="UF" required [(ngModel)]="pessoa.uf">
             <option value="">Selecione</option>
             <option value="AC">Acre</option>
             <option value="AL">Alagoas</option>
@@ -95,5 +95,48 @@
         <button type="submit" class="btn btn-danger mb-3 ms-2">Excluir</button>
       </div>
     </div>
+  </section>
+
+  <section>
+    <h1>Dados gravados</h1>
+    <table class="table table-bordered">
+      <thead class="text-center">
+      <tr>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>RG</th>
+        <th>CEP</th>
+        <th>Logradouro</th>
+        <th>Complemento</th>
+        <th>Setor</th>
+        <th>Cidade</th>
+        <th>UF</th>
+        <th>Telefones</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let pessoa of pessoas">
+        <td>{{ pessoa.nome }}</td>
+        <td>{{ pessoa.cpf }}</td>
+        <td>{{ pessoa.rg }}</td>
+        <td>{{ pessoa.cep }}</td>
+        <td>{{ pessoa.logradouro }}</td>
+        <td>{{ pessoa.complemento }}</td>
+        <td>{{ pessoa.setor }}</td>
+        <td>{{ pessoa.cidade }}</td>
+        <td>{{ pessoa.uf }}</td>
+        <td>
+          <ul>
+            <li *ngFor="let telefone of pessoa.telefones">
+              {{ telefone.telefone }} - {{ telefone.descricao }}
+            </li>
+          </ul>
+        </td>
+        <td>
+          <button type="submit" class="btn btn-light">Editar</button>
+        </td>
+      </tbody>
+    </table>
   </section>
 </div>

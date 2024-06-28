@@ -15,4 +15,8 @@ export class PessoaService {
   newPessoa(pessoa: Pessoa): Observable<Pessoa> {
     return this.httpClient.post<Pessoa>(this.url, pessoa);
   }
+
+  getPessoas(): Observable<Pessoa[]> {
+    return this.httpClient.get<Pessoa[]>(this.url);
+  }
 }

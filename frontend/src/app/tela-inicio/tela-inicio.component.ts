@@ -56,7 +56,7 @@ export class TelaInicioComponent implements OnInit {
       )
       .subscribe(pessoas => {
         this.pessoas = pessoas;
-    });
+      });
   }
 
   criarPessoa() {
@@ -69,8 +69,9 @@ export class TelaInicioComponent implements OnInit {
         })
       )
       .subscribe(pessoa => {
-      this.toastr.success('Pessoa criada com sucesso!', 'Sucesso!');
-    });
+        this.toastr.success('Pessoa criada com sucesso!', 'Sucesso!');
+        this.getPessoas();
+      });
 
     this.pessoa = this.pessoaVazia();
     this.pessoa.telefones = Array.from({length: 5}, () => ({id: 0, telefone: '', descricao: ''}));
@@ -117,7 +118,8 @@ export class TelaInicioComponent implements OnInit {
       )
       .subscribe(pessoa => {
         this.toastr.success('Pessoa atualizada com sucesso!', 'Sucesso!');
-    });
+        this.getPessoas();
+      });
 
     this.pessoa = this.pessoaVazia();
     this.pessoa.telefones = Array.from({length: 5}, () => ({id: 0, telefone: '', descricao: ''}));
@@ -148,6 +150,6 @@ export class TelaInicioComponent implements OnInit {
       .subscribe(() => {
         this.toastr.success('Pessoa deletada com sucesso!', 'Sucesso!');
         this.getPessoas();
-    });
+      });
   }
 }

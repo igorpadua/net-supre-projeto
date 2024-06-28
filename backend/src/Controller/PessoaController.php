@@ -117,6 +117,7 @@ class PessoaController extends AbstractController
     #[Route('/', name: 'app_pessoa_new', methods: ['POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
+
         $data = json_decode($request->getContent(), true);
 
         $pessoa = new Pessoa();

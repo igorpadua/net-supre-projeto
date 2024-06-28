@@ -21,6 +21,17 @@ class Telefone
     #[ORM\Column(length: 255)]
     private string $descricao;
 
+    /**
+     * @var Collection<int, Pessoa>
+     */
+    #[ORM\ManyToMany(targetEntity: Pessoa::class, mappedBy: 'telefone')]
+    private Collection $pessoas;
+
+    public function __construct()
+    {
+        $this->pessoas = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -50,4 +61,30 @@ class Telefone
         return $this;
     }
 
+    /**
+     * @return Collection<int, Pessoa>
+     */
+    public function getPessoas(): Collection
+    {
+        return $this->pessoas;
+    }
+
+    public function addPessoa(Pessoa $pessoa): static
+    {
+        if (!$this->pessoas->contains($pessoa)) {
+            $this->pessoas->add($pessoa);
+            $pessoa->addTelefone($this);
+        }
+
+        return $this;
+    }
+
+    public function removePessoa(Pessoa $pessoa): static
+    {
+        if ($this->pessoas->removeElement($pessoa)) {
+            $pessoa->removeTelefone($this);
+        }
+
+        return $this;
+    }
 }

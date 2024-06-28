@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PessoaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -41,8 +43,16 @@ class Pessoa
     #[ORM\Column(length: 2)]
     private string $uf;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $telefones;
+    /**
+     * @var Collection<int, Telefone>
+     */
+    #[ORM\ManyToMany(targetEntity: Telefone::class, inversedBy: 'pessoas')]
+    private Collection $telefone;
+
+    public function __construct()
+    {
+        $this->telefone = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -157,14 +167,26 @@ class Pessoa
         return $this;
     }
 
-    public function getTelefones(): array
+    /**
+     * @return Collection<int, Telefone>
+     */
+    public function getTelefone(): Collection
     {
-        return $this->telefones;
+        return $this->telefone;
     }
 
-    public function setTelefones(array $telefones): static
+    public function addTelefone(Telefone $telefone): static
     {
-        $this->telefones = $telefones;
+        if (!$this->telefone->contains($telefone)) {
+            $this->telefone->add($telefone);
+        }
+
+        return $this;
+    }
+
+    public function removeTelefone(Telefone $telefone): static
+    {
+        $this->telefone->removeElement($telefone);
 
         return $this;
     }

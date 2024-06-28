@@ -19,10 +19,10 @@ class Pessoa
     #[ORM\Column(length: 255)]
     private string $nome;
 
-    #[ORM\Column(length: 11)]
+    #[ORM\Column(length: 11, unique: true)]
     private string $cpf;
 
-    #[ORM\Column(length: 7)]
+    #[ORM\Column(length: 9, unique: true)]
     private string $rg;
 
     #[ORM\Column(length: 8)]
@@ -46,12 +46,12 @@ class Pessoa
     /**
      * @var Collection<int, Telefone>
      */
-    #[ORM\ManyToMany(targetEntity: Telefone::class, inversedBy: 'pessoas')]
-    private Collection $telefone;
+    #[ORM\OneToMany(targetEntity: Telefone::class, mappedBy: 'pessoa')]
+    private Collection $telefones;
 
     public function __construct()
     {
-        $this->telefone = new ArrayCollection();
+        $this->telefones = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -170,15 +170,16 @@ class Pessoa
     /**
      * @return Collection<int, Telefone>
      */
-    public function getTelefone(): Collection
+    public function getTelefones(): Collection
     {
-        return $this->telefone;
+        return $this->telefones;
     }
 
     public function addTelefone(Telefone $telefone): static
     {
-        if (!$this->telefone->contains($telefone)) {
-            $this->telefone->add($telefone);
+        if (!$this->telefones->contains($telefone)) {
+            $this->telefones->add($telefone);
+            $telefone->setPessoa($this);
         }
 
         return $this;
@@ -186,7 +187,12 @@ class Pessoa
 
     public function removeTelefone(Telefone $telefone): static
     {
-        $this->telefone->removeElement($telefone);
+        if ($this->telefones->removeElement($telefone)) {
+            // set the owning side to null (unless already changed)
+            if ($telefone->getPessoa() === $this) {
+                $telefone->setPessoa(null);
+            }
+        }
 
         return $this;
     }

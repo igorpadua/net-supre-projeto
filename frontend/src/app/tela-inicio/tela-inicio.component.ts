@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './tela-inicio.component.html',
-  styleUrl: './tela-inicio.component.css'
+  styleUrl: './tela-inicio.component.scss'
 })
 export class TelaInicioComponent {
 

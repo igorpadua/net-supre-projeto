@@ -90,8 +90,11 @@
           </tbody>
         </table>
       </form>
-      <div class="d-flex">
+      <div class="d-flex" *ngIf="!editando">
         <button type="submit" class="btn btn-primary mb-3 ms-auto" (click)="criarPessoa()">Gravar</button>
+      </div>
+      <div class="d-flex" *ngIf="editando">
+        <button type="submit" class="btn btn-primary mb-3 ms-auto" (click)="atualizaPessoa()">Gravar</button>
         <button type="submit" class="btn btn-danger mb-3 ms-2">Excluir</button>
       </div>
     </div>
@@ -128,13 +131,13 @@
         <td>{{ pessoa.uf }}</td>
         <td>
           <ul>
-            <li *ngFor="let telefone of pessoa.telefones">
+            <li *ngFor="let telefone of retiraTelefonesVazios(pessoa.telefones)">
               {{ telefone.telefone }} - {{ telefone.descricao }}
             </li>
           </ul>
         </td>
         <td>
-          <button type="submit" class="btn btn-light">Editar</button>
+          <button type="submit" class="btn btn-light" (click)="editarPessoa(pessoa.id)">Editar</button>
         </td>
       </tbody>
     </table>

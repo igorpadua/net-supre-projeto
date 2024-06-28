@@ -2,16 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {PessoaService} from "../services/pessoa.service";
 import {Pessoa} from "../dtos/pessoa";
 import {FormsModule} from "@angular/forms";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {ToastrService} from "ngx-toastr";
 import {catchError, EMPTY} from "rxjs";
+import {Telefone} from "../dtos/telefone";
 
 @Component({
   selector: 'app-tela-inicio',
   standalone: true,
   imports: [
     FormsModule,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './tela-inicio.component.html',
   styleUrl: './tela-inicio.component.scss'
@@ -33,18 +35,22 @@ export class TelaInicioComponent implements OnInit {
   }
 
   pessoas: Pessoa[] = [];
+  editando: boolean = false;
 
   constructor(private pessoaService: PessoaService, private toastr: ToastrService) {
   }
 
   ngOnInit() {
     this.pessoa.telefones = Array.from({length: 5}, () => ({id: 0, telefone: '', descricao: ''}));
+    this.getPessoas();
+  }
 
+  getPessoas() {
     this.pessoaService.getPessoas()
       .pipe(
         catchError(err => {
           console.error(err);
-          this.toastr.error('Erro ao buscar pessoas!', 'Erro!');
+          this.toastr.error(err.error.message, 'Erro!');
           return EMPTY;
         })
       )
@@ -58,7 +64,6 @@ export class TelaInicioComponent implements OnInit {
     this.pessoaService.newPessoa(this.pessoa)
       .pipe(
         catchError(err => {
-          console.error(err);
           this.toastr.error(err.error.message, 'Erro!');
           return EMPTY;
         })
@@ -92,6 +97,42 @@ export class TelaInicioComponent implements OnInit {
       cidade: '',
       uf: '',
       telefones: []
+    }
+  }
+
+  retiraTelefonesVazios(telefones: Telefone[]): Telefone[] {
+    return telefones.filter(t => t.telefone !== '');
+  }
+
+  atualizaPessoa() {
+    console.log(this.pessoa);
+    this.pessoa.telefones = this.retiraTelefonesVazios(this.pessoa.telefones);
+    this.pessoaService.putPessoa(this.pessoa)
+      .pipe(
+        catchError(err => {
+          console.error(err);
+          this.toastr.error(err.error.message, 'Erro!');
+          return EMPTY;
+        })
+      )
+      .subscribe(pessoa => {
+        this.toastr.success('Pessoa atualizada com sucesso!', 'Sucesso!');
+    });
+
+    this.pessoa = this.pessoaVazia();
+    this.pessoa.telefones = Array.from({length: 5}, () => ({id: 0, telefone: '', descricao: ''}));
+    this.editando = false;
+  }
+
+  editarPessoa(id: number) {
+    this.pessoa = this.pessoas.find(p => p.id === id) || this.pessoaVazia();
+
+    if (this.pessoa != this.pessoaVazia()) {
+      this.editando = true;
+      this.pessoa.telefones.filter(t => t.telefone === '').forEach(t => t.telefone = '');
+      if (this.pessoa.telefones.length < 5) {
+        this.pessoa.telefones = this.pessoa.telefones.concat(Array.from({length: 5 - this.pessoa.telefones.length}, () => ({id: 0, telefone: '', descricao: ''})));
+      }
     }
   }
 }

@@ -19,4 +19,8 @@ export class PessoaService {
   getPessoas(): Observable<Pessoa[]> {
     return this.httpClient.get<Pessoa[]>(this.url);
   }
+
+  putPessoa(pessoa: Pessoa): Observable<Pessoa> {
+    return this.httpClient.put<Pessoa>(this.url + pessoa.id, pessoa);
+  }
 }

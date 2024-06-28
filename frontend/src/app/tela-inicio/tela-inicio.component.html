@@ -4,37 +4,41 @@
     <div class="row">
       <form class="col">
         <div class="form-group">
-          <label for="nome">Nome</label>
-          <input type="text" class="form-control" id="nome">
+          <label>Nome</label>
+          <input type="text" class="form-control" name="nome" [(ngModel)]="pessoa.nome">
         </div>
         <div class="form-group">
-          <label for="cpf">CPF</label>
-          <input type="text" class="form-control" id="cpf">
+          <label>CPF</label>
+          <input type="text" class="form-control" name="cpf" [(ngModel)]="pessoa.cpf">
         </div>
         <div class="form-group">
-          <label for="rg">RG</label>
-          <input type="text" class="form-control" id="rg">
+          <label>RG</label>
+          <input type="text" class="form-control" name="rg" [(ngModel)]="pessoa.rg">
         </div>
         <h2>Endereço</h2>
         <div class="form-group">
-          <label for="cep">CEP</label>
-          <input type="text" class="form-control" id="cep">
+          <label>CEP</label>
+          <input type="text" class="form-control" name="cep" [(ngModel)]="pessoa.cep">
         </div>
         <div class="form-group">
-          <label for="logradouro">Logradouro</label>
-          <input type="text" class="form-control" id="logradouro">
+          <label>Logradouro</label>
+          <input type="text" class="form-control" name="logradouro" [(ngModel)]="pessoa.logradouro">
         </div>
         <div class="form-group">
-          <label for="setor">setor</label>
-          <input type="text" class="form-control" id="setor">
+          <label>Complemento</label>
+          <input type="text" class="form-control" name="complemento" [(ngModel)]="pessoa.complemento">
         </div>
         <div class="form-group">
-          <label for="cidade">Cidade</label>
-          <input type="text" class="form-control" id="cidade">
+          <label>setor</label>
+          <input type="text" class="form-control" name="setor" [(ngModel)]="pessoa.setor">
         </div>
         <div class="form-group">
-          <label for="UF">UF</label>
-          <select class="form-control" id="UF">
+          <label>Cidade</label>
+          <input type="text" class="form-control" name="cidade" [(ngModel)]="pessoa.cidade">
+        </div>
+        <div class="form-group">
+          <label>UF</label>
+          <select class="form-control" name="UF" [(ngModel)]="pessoa.uf">
             <option value="">Selecione</option>
             <option value="AC">Acre</option>
             <option value="AL">Alagoas</option>
@@ -75,51 +79,19 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
+          <tr *ngFor="let telefone of pessoa.telefones; let i = index" (change)="verificaQuantidadeTelefones()">
             <td>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" name="telefone{{i}}" [(ngModel)]="pessoa.telefones[i].telefone">
             </td>
             <td>
-              <input type="text" class="form-control">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="text" class="form-control">
-            </td>
-            <td>
-              <input type="text" class="form-control">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="text" class="form-control">
-            </td>
-            <td>
-              <input type="text" class="form-control">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="text" class="form-control">
-            </td>
-            <td>
-              <input type="text" class="form-control">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <input type="text" class="form-control">
-            </td>
-            <td>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" name="descricao{{i}}" [(ngModel)]="pessoa.telefones[i].descricao">
             </td>
           </tr>
           </tbody>
         </table>
       </form>
       <div class="d-flex">
-        <button type="submit" class="btn btn-primary mb-3 ms-auto">Gravar</button>
+        <button type="submit" class="btn btn-primary mb-3 ms-auto" (click)="criarPessoa()">Gravar</button>
         <button type="submit" class="btn btn-danger mb-3 ms-2">Excluir</button>
       </div>
     </div>

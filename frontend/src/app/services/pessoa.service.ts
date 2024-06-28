@@ -23,4 +23,8 @@ export class PessoaService {
   putPessoa(pessoa: Pessoa): Observable<Pessoa> {
     return this.httpClient.put<Pessoa>(this.url + pessoa.id, pessoa);
   }
+
+  deletePessoa(id: number): Observable<any> {
+    return this.httpClient.delete(this.url + id);
+  }
 }

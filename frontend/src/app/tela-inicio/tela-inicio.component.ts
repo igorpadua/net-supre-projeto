@@ -135,4 +135,19 @@ export class TelaInicioComponent implements OnInit {
       }
     }
   }
+
+  deletarPessoa(id: number) {
+    this.pessoaService.deletePessoa(id)
+      .pipe(
+        catchError(err => {
+          console.error(err);
+          this.toastr.error(err.error.message, 'Erro!');
+          return EMPTY;
+        })
+      )
+      .subscribe(() => {
+        this.toastr.success('Pessoa deletada com sucesso!', 'Sucesso!');
+        this.getPessoas();
+    });
+  }
 }

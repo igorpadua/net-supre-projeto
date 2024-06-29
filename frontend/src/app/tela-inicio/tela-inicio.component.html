@@ -2,7 +2,7 @@
   <section class="border-bottom">
     <h1>Cadastro de pessoas</h1>
     <div class="row">
-      <form class="col">
+      <form class="col" #pessoaForm="ngForm">
         <div class="form-group">
           <label>Nome</label>
           <input type="text" class="form-control" name="nome" required [(ngModel)]="pessoa.nome">
@@ -93,10 +93,18 @@
         </table>
       </form>
       <div class="d-flex" *ngIf="!editando">
-        <button type="submit" class="btn btn-primary mb-3 ms-auto" (click)="criarPessoa()">Gravar</button>
+        <button type="submit" class="btn btn-primary mb-3 ms-auto"
+                [disabled]="!pessoaForm.form.valid"
+                (click)="criarPessoa()">
+          Gravar
+        </button>
       </div>
       <div class="d-flex" *ngIf="editando">
-        <button type="submit" class="btn btn-primary mb-3 ms-auto" (click)="atualizaPessoa()">Gravar</button>
+        <button type="submit" class="btn btn-primary mb-3 ms-auto"
+                (click)="atualizaPessoa()"
+                [disabled]="pessoaForm.form.valid">
+          Gravar
+        </button>
         <button type="submit" class="btn btn-danger mb-3 ms-2" (click)="deletarPessoa(pessoa.id)">Excluir</button>
       </div>
     </div>

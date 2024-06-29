@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PessoaService} from "../services/pessoa.service";
 import {Pessoa} from "../dtos/pessoa";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
 import {ToastrService} from "ngx-toastr";
 import {catchError, EMPTY} from "rxjs";
@@ -17,7 +17,8 @@ import {NgxMaskDirective} from "ngx-mask";
     NgForOf,
     NgIf,
     OrdernarColunaPipe,
-    NgxMaskDirective
+    NgxMaskDirective,
+    ReactiveFormsModule
   ],
   templateUrl: './tela-inicio.component.html',
   styleUrl: './tela-inicio.component.scss'
@@ -66,6 +67,12 @@ export class TelaInicioComponent implements OnInit {
   }
 
   criarPessoa() {
+
+    if (!this.verificaSeTodosOsDadosEstaoPreenchidos()) {
+      this.toastr.error('Preencha todos os campos!', 'Erro!');
+      return;
+    }
+
     this.pessoa.telefones = this.pessoa.telefones.filter(t => t.telefone !== '');
     this.pessoaService.newPessoa(this.pessoa)
       .pipe(
@@ -112,7 +119,12 @@ export class TelaInicioComponent implements OnInit {
   }
 
   atualizaPessoa() {
-    console.log(this.pessoa);
+
+    if (!this.verificaSeTodosOsDadosEstaoPreenchidos()) {
+      this.toastr.error('Preencha todos os campos!', 'Erro!');
+      return;
+    }
+
     this.pessoa.telefones = this.retiraTelefonesVazios(this.pessoa.telefones);
     this.pessoaService.putPessoa(this.pessoa)
       .pipe(
@@ -159,9 +171,14 @@ export class TelaInicioComponent implements OnInit {
       });
   }
 
-
   sort(nome: string) {
     this.nomeColuna = nome;
     this.ordernar = this.ordernar === 'asc' ? 'desc' : 'asc';
+  }
+
+  private verificaSeTodosOsDadosEstaoPreenchidos(): boolean {
+    return this.pessoa.nome !== '' && this.pessoa.cpf !== '' && this.pessoa.rg !== '' && this.pessoa.cep !== ''
+      && this.pessoa.logradouro !== '' && this.pessoa.complemento !== '' && this.pessoa.setor !== ''
+      && this.pessoa.cidade !== '' && this.pessoa.uf !== '';
   }
 }

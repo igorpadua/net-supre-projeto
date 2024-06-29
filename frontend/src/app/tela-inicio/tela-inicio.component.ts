@@ -7,6 +7,7 @@ import {ToastrService} from "ngx-toastr";
 import {catchError, EMPTY} from "rxjs";
 import {Telefone} from "../dtos/telefone";
 import {OrdernarColunaPipe} from "../util/ordernar-coluna.pipe";
+import {NgxMaskDirective} from "ngx-mask";
 
 @Component({
   selector: 'app-tela-inicio',
@@ -15,7 +16,8 @@ import {OrdernarColunaPipe} from "../util/ordernar-coluna.pipe";
     FormsModule,
     NgForOf,
     NgIf,
-    OrdernarColunaPipe
+    OrdernarColunaPipe,
+    NgxMaskDirective
   ],
   templateUrl: './tela-inicio.component.html',
   styleUrl: './tela-inicio.component.scss'

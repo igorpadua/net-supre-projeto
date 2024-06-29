@@ -9,16 +9,16 @@
         </div>
         <div class="form-group">
           <label>CPF</label>
-          <input type="text" class="form-control" name="cpf" required [(ngModel)]="pessoa.cpf">
+          <input type="text" class="form-control" name="cpf" required [(ngModel)]="pessoa.cpf" mask="000.000.000-00">
         </div>
         <div class="form-group">
           <label>RG</label>
-          <input type="text" class="form-control" name="rg" required [(ngModel)]="pessoa.rg">
+          <input type="text" class="form-control" name="rg" required [(ngModel)]="pessoa.rg" mask="00.000.000-0">
         </div>
         <h2>Endereço</h2>
         <div class="form-group">
           <label>CEP</label>
-          <input type="text" class="form-control" name="cep" required [(ngModel)]="pessoa.cep">
+          <input type="text" class="form-control" name="cep" required [(ngModel)]="pessoa.cep" mask="00000-000">
         </div>
         <div class="form-group">
           <label>Logradouro</label>
@@ -81,7 +81,9 @@
           <tbody>
           <tr *ngFor="let telefone of pessoa.telefones; let i = index" (change)="verificaQuantidadeTelefones()">
             <td>
-              <input type="text" class="form-control" name="telefone{{i}}" [(ngModel)]="pessoa.telefones[i].telefone">
+              <input type="text" class="form-control" name="telefone{{i}}"
+                     mask="(00) 00000-0000"
+                     [(ngModel)]="pessoa.telefones[i].telefone">
             </td>
             <td>
               <input type="text" class="form-control" name="descricao{{i}}" [(ngModel)]="pessoa.telefones[i].descricao">

@@ -6,6 +6,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {ToastrService} from "ngx-toastr";
 import {catchError, EMPTY} from "rxjs";
 import {Telefone} from "../dtos/telefone";
+import {OrdernarColunaPipe} from "../util/ordernar-coluna.pipe";
 
 @Component({
   selector: 'app-tela-inicio',
@@ -13,7 +14,8 @@ import {Telefone} from "../dtos/telefone";
   imports: [
     FormsModule,
     NgForOf,
-    NgIf
+    NgIf,
+    OrdernarColunaPipe
   ],
   templateUrl: './tela-inicio.component.html',
   styleUrl: './tela-inicio.component.scss'
@@ -36,6 +38,8 @@ export class TelaInicioComponent implements OnInit {
 
   pessoas: Pessoa[] = [];
   editando: boolean = false;
+  nomeColuna: string = 'nome';
+  ordernar: 'asc' | 'desc' = 'asc';
 
   constructor(private pessoaService: PessoaService, private toastr: ToastrService) {
   }
@@ -151,5 +155,11 @@ export class TelaInicioComponent implements OnInit {
         this.toastr.success('Pessoa deletada com sucesso!', 'Sucesso!');
         this.getPessoas();
       });
+  }
+
+
+  sort(nome: string) {
+    this.nomeColuna = nome;
+    this.ordernar = this.ordernar === 'asc' ? 'desc' : 'asc';
   }
 }

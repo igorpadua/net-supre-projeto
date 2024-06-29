@@ -105,21 +105,75 @@
     <table class="table table-bordered">
       <thead class="text-center">
       <tr>
-        <th>Nome</th>
-        <th>CPF</th>
-        <th>RG</th>
-        <th>CEP</th>
-        <th>Logradouro</th>
-        <th>Complemento</th>
-        <th>Setor</th>
-        <th>Cidade</th>
-        <th>UF</th>
+        <th (click)="sort('nome')">
+          <i *ngIf="ordernar == 'asc' || nomeColuna !== 'nome'"
+             class="bi bi-sort-alpha-up bg-transparent"></i>
+          <i *ngIf="ordernar == 'desc' && nomeColuna === 'nome'"
+             class="bi bi-sort-alpha-down bg-transparent"></i>
+          Nome
+        </th>
+        <th (click)="sort('cpf')">
+          <i *ngIf="ordernar == 'asc' || nomeColuna !== 'cpf'"
+             class="bi bi-sort-numeric-up bg-transparent"></i>
+          <i *ngIf="ordernar == 'desc' && nomeColuna === 'cpf'"
+             class="bi bi-sort-numeric-down bg-transparent"></i>
+          CPF
+        </th>
+        <th (click)="sort('rg')">
+          <i *ngIf="ordernar == 'asc' || nomeColuna !== 'rg'"
+             class="bi bi-sort-numeric-up bg-transparent"></i>
+          <i *ngIf="ordernar == 'desc' && nomeColuna === 'rg'"
+             class="bi bi-sort-numeric-down bg-transparent"></i>
+          RG
+        </th>
+        <th (click)="sort('cep')">
+          <i *ngIf="ordernar == 'asc' || nomeColuna !== 'cep'"
+             class="bi bi-sort-numeric-up bg-transparent"></i>
+          <i *ngIf="ordernar == 'desc' && nomeColuna === 'cep'"
+             class="bi bi-sort-numeric-down bg-transparent"></i>
+          CEP
+        </th>
+        <th (click)="sort('logradouro')">
+          <i *ngIf="ordernar == 'asc' || nomeColuna !== 'logradouro'"
+             class="bi bi-sort-alpha-up bg-transparent"></i>
+          <i *ngIf="ordernar == 'desc' && nomeColuna === 'logradouro'"
+             class="bi bi-sort-alpha-down bg-transparent"></i>
+          Logradouro
+        </th>
+        <th (click)="sort('complemento')">
+          <i *ngIf="ordernar == 'asc' || nomeColuna !== 'complemento'"
+             class="bi bi-sort-alpha-up bg-transparent"></i>
+          <i *ngIf="ordernar == 'desc' && nomeColuna === 'complemento'"
+             class="bi bi-sort-alpha-down bg-transparent"></i>
+          Complemento
+        </th>
+        <th (click)="sort('setor')">
+          <i *ngIf="ordernar == 'asc' || nomeColuna !== 'setor'"
+             class="bi bi-sort-alpha-up bg-transparent"></i>
+          <i *ngIf="ordernar == 'desc' && nomeColuna === 'setor'"
+             class="bi bi-sort-alpha-down bg-transparent"></i>
+          Setor
+        </th>
+        <th (click)="sort('cidade')">
+          <i *ngIf="ordernar == 'asc' || nomeColuna !== 'cidade'"
+             class="bi bi-sort-alpha-up bg-transparent"></i>
+          <i *ngIf="ordernar == 'desc' && nomeColuna === 'cidade'"
+             class="bi bi-sort-alpha-down bg-transparent"></i>
+          Cidade
+        </th>
+        <th (click)="sort('uf')">
+          <i *ngIf="ordernar == 'asc' || nomeColuna !== 'uf'"
+             class="bi bi-sort-alpha-up bg-transparent"></i>
+          <i *ngIf="ordernar == 'desc' && nomeColuna === 'uf'"
+             class="bi bi-sort-alpha-down bg-transparent"></i>
+          UF
+        </th>
         <th>Telefones</th>
         <th></th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let pessoa of pessoas">
+      <tr *ngFor="let pessoa of pessoas | ordernarColuna: nomeColuna: ordernar;">
         <td>{{ pessoa.nome }}</td>
         <td>{{ pessoa.cpf }}</td>
         <td>{{ pessoa.rg }}</td>
